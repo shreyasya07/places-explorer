@@ -4,12 +4,7 @@ import {
   Routes,
   Navigate,
 } from "react-router-dom";
-// import Users from "./user/pages/users";
-// import NewPlace from "./places/pages/NewPlace";
 import MainNavigation from "./shared/components/Navigation/MainNavigation";
-// import UserPlaces from "./places/pages/UserPlaces";
-// import UpdatePlace from "./places/pages/UpdatePlace";
-// import Auth from "./user/pages/Auth";
 import { AuthContext } from "./shared/context/auth-context";
 import { useAuth } from "./shared/hooks/auth-hook";
 import React, { Suspense } from "react";
