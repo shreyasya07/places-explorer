@@ -13,7 +13,7 @@ import { AuthContext } from "../../shared/context/auth-context";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
-import ImageUpload from "../../shared/components/FormComponents/ImageUpload";
+// import ImageUpload from "../../shared/components/FormComponents/ImageUpload";
 
 const NewPlace = () => {
   const auth = useContext(AuthContext);
@@ -33,10 +33,10 @@ const NewPlace = () => {
         value: "",
         isValid: false,
       },
-      image: {
-        value: null,
-        isValid: false,
-      },
+      // image: {
+      //   value: null,
+      //   isValid: false,
+      // },
     },
     false
   );
@@ -44,14 +44,20 @@ const NewPlace = () => {
   const placeSubmitHandler = async (event) => {
     event.preventDefault();
     try {
-      const formData = new FormData();
-      formData.append("title", formState.inputs.title.value);
-      formData.append("address", formState.inputs.address.value);
-      formData.append("desc", formState.inputs.desc.value);
-      formData.append("image", formState.inputs.image.value);
-      await sendRequest(process.env.REACT_APP_BACKEND_URL+'/places', "POST", formData, {
-        Authorization: "Bearer " + auth.token
-      });
+      // const formData = new FormData();
+      // formData.append("title", formState.inputs.title.value);
+      // formData.append("address", formState.inputs.address.value);
+      // formData.append("desc", formState.inputs.desc.value);
+      // formData.append("image", formState.inputs.image.value);
+      await sendRequest(process.env.REACT_APP_BACKEND_URL+'/places', 
+      "POST", 
+      JSON.stringify({
+        title:formState.inputs.title.value,
+        address:formState.inputs.address.value,
+        desc:formState.inputs.desc.value,
+      }),
+      { Authorization: "Bearer " + auth.token,
+      "Content-type": "application/json" });
       history("/");
     } catch (error) {}
   };
@@ -85,12 +91,12 @@ const NewPlace = () => {
           validators={[VALIDATOR_REQUIRE()]}
           onInput={inputHandler}
         />
-        <ImageUpload
+        {/* <ImageUpload
           id="image"
           center
           onInput={inputHandler}
           errorText="Please provide an image"
-        />
+        /> */}
         <Button type="submit" disabled={!formState.isValid}>
           ADD PLACE
         </Button>

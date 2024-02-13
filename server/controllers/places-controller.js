@@ -1,5 +1,5 @@
 const { validationResult } = require("express-validator");
-const fs=require('fs');
+// const fs=require('fs');
 const HttpError = require("../Models/http-error");
 const getCoordsForAddress = require("../util/location");
 const Place = require("../Models/place");
@@ -55,7 +55,7 @@ const createPlace = async (req, res, next) => {
     return next(new HttpError("Invaid inputs passed", 422));
   }
 
-  const { url, title, desc, address } = req.body;
+  const { title, desc, address } = req.body;
   let coordinates;
   try {
     coordinates = await getCoordsForAddress(address);
@@ -66,7 +66,7 @@ const createPlace = async (req, res, next) => {
   const createdPlace = new Place({
     title,
     desc,
-    url: req.file.path,
+    url: 'https://tfipost.in/wp-content/uploads/sites/2/2022/02/Place-strategy-4.jpg',
     address,
     location: coordinates,
     creatorID:req.userData.userId,
@@ -148,7 +148,7 @@ const deletePlace = async (req, res, next) => {
   if(place.creatorID.id!==req.userData.userId){
     return next(new HttpError("You are not allowed to delete this place", 401));
   }
-  const imagePath=place.url;
+  // const imagePath=place.url;
   try {
     const sess = await mongoose.startSession();
     sess.startTransaction();
@@ -161,9 +161,9 @@ const deletePlace = async (req, res, next) => {
       new HttpError("Something went wrong, could not delete a place", 500)
     );
   }
-  fs.unlink(imagePath,err=>{
-    console.log(err);
-  });
+  // fs.unlink(imagePath,err=>{
+  //   console.log(err);
+  // });
   res.status(200).json({ message: "Deleted Place" });
 };
 
